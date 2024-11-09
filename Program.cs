@@ -1,6 +1,6 @@
-
 using FluentValidation.AspNetCore;
-using MediatrFluentValidation.Aplicacao.Command;
+using MediatrFluentValidation.Command;
+using MediatrFluentValidation.Middleware;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -25,24 +25,19 @@ namespace MediatrFluentValidation
                 .AddFluentValidation(fv =>
                 {
                     // Registra os validadores a partir do assembly especificado
-                    fv.RegisterValidatorsFromAssembly(Assembly.Load("MediatrFluentValidation.Aplicacao"));
+                    fv.RegisterValidatorsFromAssembly(Assembly.Load("MediatrFluentValidation"));
                 });
 
 
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(InserirUsuarioCommandHandler).Assembly));
-
-
-
-            // Registrar MediatR e todos os handlers
+            //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(InserirUsuarioCommandHandler).Assembly));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-            // Adiciona suporte ao Swagger
+        
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configurar o pipeline HTTP
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -50,6 +45,9 @@ namespace MediatrFluentValidation
              
             app.UseSwagger();
             app.UseSwaggerUI();
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+
 
             app.UseHttpsRedirection();
             app.UseAuthorization();

@@ -7,28 +7,28 @@ namespace MediatrFluentValidation.Command
         public InserirUsuarioCommandValidator()
         {
             RuleFor(x => x.Nome)
-                .NotEmpty().WithMessage("O nome é obrigatório.")
-                .MinimumLength(3).WithMessage("O nome deve ter pelo menos 3 caracteres.");
+                .NotEmpty().WithMessage("Validator - O nome é obrigatório.")
+                .MinimumLength(3).WithMessage("Validator - O nome deve ter pelo menos 3 caracteres.");
 
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("O e-mail é obrigatório.")
-                .EmailAddress().WithMessage("O e-mail deve ser válido.");
+                .NotEmpty().WithMessage("Validator - O e-mail é obrigatório.")
+                .EmailAddress().WithMessage("Validator - O e-mail deve ser válido.");
 
 
             RuleFor(x => x.Senha)
-                .NotEmpty().WithMessage("A senha é obrigatória.")
-                .MinimumLength(6).WithMessage("A senha deve ter no mínimo 6 caracteres.");
+                .NotEmpty().WithMessage("Validator - A senha é obrigatória.")
+                .MinimumLength(6).WithMessage("Validator - A senha deve ter no mínimo 6 caracteres.");
 
 
             // Validação do enum SexoEnum
             RuleFor(x => x.Sexo)
-                .IsInEnum().WithMessage("O campo Sexo deve ser 'Feminino' ou 'Masculino'.");
+                .IsInEnum().WithMessage("Validator - O campo Sexo deve ser 'Feminino' ou 'Masculino'.");
 
 
 
             RuleFor(x => x.Sexo)
                 .Must(value => value == "F" || value == "M")
-                .WithMessage("O campo Sexo deve ser 'F' (Feminino) ou 'M' (Masculino).");
+                .WithMessage("Validator - O campo Sexo deve ser 'F' (Feminino) ou 'M' (Masculino).");
 
 
         }

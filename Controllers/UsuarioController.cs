@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MediatrFluentValidation.Command;
+using MediatrFluentValidation.UsuarioCriado;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediatrFluentValidation.Controllers
@@ -57,6 +58,26 @@ namespace MediatrFluentValidation.Controllers
 
         }
 
+
+
+
+
+        [HttpPost("UsuarioCriadoNotificacao")]
+        public async Task<IActionResult> UsuarioCriadoNotificacao([FromBody] UsuarioDto usuarioDto)
+        {
+            // Simulando criação do usuário
+            var novoId = new Random().Next(1, 1000);
+
+            // Publica a notificação para todos os handlers registrados
+            await _mediator.Publish(new UsuarioCriadoNotification(novoId, usuarioDto.Nome));
+
+            return Ok(new { Id = novoId, Mensagem = "Usuário criado com sucesso!" });
+        }
+
+        public class UsuarioDto
+        {
+            public string Nome { get; set; }
+        }
 
     }
     

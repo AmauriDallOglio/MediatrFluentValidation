@@ -36,6 +36,17 @@ namespace MediatrFluentValidation
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+
+            builder.Services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblyContaining<Program>();
+                // Se desejar execução paralela entre handlers:
+                // cfg.NotificationPublisher = new TaskWhenAllPublisher();
+            });
+
+
+
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
